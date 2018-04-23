@@ -200,11 +200,8 @@ out/test.d: pkg/minikube/assets/assets.go
 test:
 	./test.sh
 
-pkg/minikube/assets/assets.go: $(GOPATH)/bin/go-bindata $(shell find deploy/addons -type f)
-	$(GOPATH)/bin/go-bindata -nomemcopy -o pkg/minikube/assets/assets.go -pkg assets deploy/addons/...
-
-$(GOPATH)/bin/go-bindata:
-	GOBIN=$(GOPATH)/bin go get github.com/jteeuwen/go-bindata/...
+pkg/minikube/assets/assets.go: deploy/addons
+	go-bindata -nomemcopy -o pkg/minikube/assets/assets.go -pkg assets deploy/addons/...
 
 .PHONY: cross
 cross: out/minikube-linux-amd64 out/minikube-darwin-amd64 out/minikube-windows-amd64.exe
